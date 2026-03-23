@@ -116,15 +116,44 @@ A repository is the folder where GitHub stores and tracks your project. You will
 
 ---
 
+### 6. Generate a Personal Access Token
+
+GitHub requires a Personal Access Token (PAT) to authenticate Git operations from the command line. Think of it as a password specifically for Git — you will need it when pushing and pulling during the session.
+
+1. Log in to [https://github.com](https://github.com)
+2. Click your **profile picture** in the top-right corner and select **Settings**
+3. Scroll to the bottom of the left sidebar and click **Developer settings**
+4. Click **Personal access tokens** → **Tokens (classic)**
+5. Click **Generate new token (classic)**
+6. Fill in the details as follows:
+   - **Note:** `git-practice`
+   - **Expiration:** 30 days
+   - **Scopes:** tick **repo** (this automatically ticks all the sub-items below it)
+7. Click **Generate token**
+8. **Copy the token immediately** — GitHub will only show it once. Paste it somewhere safe such as a notes app or password manager before closing the page.
+
+When Git asks for your password during the session, paste this token instead of your GitHub account password.
+
+> **On a Mac?** macOS may store your credentials in the keychain automatically. If Git does not prompt you for a password at all, or if you see an authentication error, run the following in your terminal to clear cached credentials and try again:
+> ```
+> git credential-osxkeychain erase
+> host=github.com
+> protocol=https
+> ```
+> Then press Enter twice, and retry your Git command.
+
+---
+
 ### Quick checklist
 
-Before the session, make sure you can tick all five:
+Before the session, make sure you can tick all six:
 
 - [ ] Running `git --version` in your terminal returns a version number
 - [ ] You can log in to [github.com](https://github.com)
 - [ ] You have a text editor available (built-in Notepad/TextEdit is fine)
 - [ ] A `git-practice` folder exists on your Desktop
 - [ ] A `git-practice` repository exists on your GitHub account
+- [ ] You have a Personal Access Token copied and saved somewhere safe
 
 ---
 
@@ -132,7 +161,7 @@ Before the session, make sure you can tick all five:
 
 This tutorial is built as a single self-contained HTML file and hosted via GitHub Pages. Open it in any modern browser — no installation required.
 
-**Live tutorial:** [https://yourusername.github.io/your-repo-name](https://yourusername.github.io/your-repo-name)
+**Live tutorial:** [https://msuicaut.github.io/git-github-tutorial](https://msuicaut.github.io/git-github-tutorial)
 
 ---
 
