@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<!-- saved from url=(0049)file:///Users/user/Downloads/git-tutorial_22.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Git &amp; GitHub — A Beginner's Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F6F2;
+    --surface: #FFFFFF;
+    --border: #E2E0D8;
+    --text: #1A1917;
+    --text-muted: #6B6860;
+    --accent: #2B5BE0;
+    --accent-light: #EEF2FD;
+    --accent-muted: #C5D0F7;
+    --green: #1E7A4C;
+    --green-light: #EAF5EE;
+    --amber: #B45309;
+    --amber-light: #FEF3E2;
+    --purple: #6D28D9;
+    --purple-light: #F3EFFE;
+    --local: #1E4ED8;
+    --local-light: #DBEAFE;
+    --remote: #065F46;
+    --remote-light: #D1FAE5;
+    --arrow: #9CA3AF;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 32px 48px 28px;
+    max-width: 960px;
+    margin: 40px auto 0;
+    border-radius: 12px 12px 0 0;
+  }
+  .header-tag {
+    display: inline-block;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    background: var(--accent-light);
+    padding: 3px 10px;
+    border-radius: 4px;
+    margin-bottom: 14px;
+  }
+  header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 36px;
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: -.02em;
+    color: var(--text);
+  }
+  header p {
+    color: var(--text-muted);
+    margin-top: 10px;
+    max-width: 580px;
+    font-size: 15px;
+  }
+
+  /* ── NAV PROGRESS ── */
+  .progress-bar {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 0 48px;
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: flex-start;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .prog-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 0;
+    margin-right: 16px;
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    color: var(--text-muted);
+    font-size: 12px;
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color .2s, border-color .2s;
+  }
+  .prog-item:last-child { margin-right: 0; }
+  .prog-item:hover { color: var(--accent); }
+  .prog-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+  .prog-num {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px; font-weight: 600;
+    color: var(--text-muted);
+    transition: background .2s, color .2s;
+  }
+  .prog-item.active .prog-num {
+    background: var(--accent);
+    color: white;
+  }
+
+  /* ── MAIN ── */
+  main {
+    max-width: 960px;
+    margin: 0 auto 60px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 12px 12px;
+    overflow: hidden;
+  }
+
+  /* ── SECTIONS ── */
+  .section {
+    display: none;
+    padding: 44px 48px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section.active { display: block; }
+
+  .section-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .section-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .section-header h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    letter-spacing: -.01em;
+    line-height: 1.2;
+  }
+  .section-header p {
+    color: var(--text-muted);
+    font-size: 14px;
+    margin-top: 4px;
+  }
+
+  /* ── CONCEPT CARD ── */
+  .concept-card {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px 22px;
+    margin-bottom: 20px;
+  }
+  .concept-card h3 {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 6px;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+  .concept-card p { font-size: 14px; color: var(--text-muted); line-height: 1.6; }
+
+  /* ── DIAGRAM BASE ── */
+  .diagram-wrap {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 28px 24px;
+    margin: 24px 0;
+  }
+  .diagram-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 16px;
+  }
+
+  /* ── LOCAL / REMOTE DIAGRAM ── */
+  .two-col-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .env-box {
+    border-radius: 10px;
+    padding: 20px;
+    width: 100%;
+    max-width: 320px;
+  }
+  .env-box.local {
+    background: var(--local-light);
+    border: 1.5px solid var(--accent-muted);
+  }
+  .env-box.remote {
+    background: var(--remote-light);
+    border: 1.5px solid #6EE7B7;
+  }
+  .env-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .local .env-title { color: var(--local); }
+  .remote .env-title { color: var(--remote); }
+  .file-list { list-style: none; }
+  .file-list li {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 5px;
+    margin-bottom: 3px;
+    color: var(--text);
+  }
+  .local .file-list li { background: rgba(43,91,224,.08); }
+  .remote .file-list li { background: rgba(30,122,76,.08); }
+  .arrow-col {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 6px 0;
+    width: 100%;
+    max-width: 320px;
+  }
+  .arrow-pill {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 20px;
+    letter-spacing: .04em;
+    text-align: center;
+    white-space: nowrap;
+  }
+  .arrow-pill.push { background: var(--accent-light); color: var(--accent); }
+  .arrow-pill.pull { background: var(--green-light); color: var(--green); }
+
+  /* ── SVG ARROWS ── */
+  .flow-svg { width: 100%; overflow: visible; }
+
+  /* ── WORKFLOW STEPS ── */
+  .workflow-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 20px 0;
+  }
+  .workflow-step {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    gap: 16px;
+    position: relative;
+  }
+  .workflow-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 17px;
+    top: 36px;
+    bottom: -8px;
+    width: 2px;
+    background: var(--border);
+  }
+  .step-circle {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    font-weight: 500;
+    flex-shrink: 0;
+    z-index: 1;
+    position: relative;
+  }
+  .step-body {
+    padding: 6px 0 24px;
+  }
+  .step-body h4 {
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 4px;
+  }
+  .step-body p { font-size: 14px; color: var(--text-muted); margin-bottom: 10px; }
+
+  /* ── CODE BLOCK ── */
+  .code-block {
+    background: #1A1917;
+    color: #E5E3DC;
+    border-radius: 8px;
+    padding: 14px 16px;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    margin-top: 8px;
+  }
+  .code-block .prompt { color: #6B6860; user-select: none; }
+  .code-block .cmd { color: #93C5FD; }
+  .code-block .flag { color: #FCA5A5; }
+  .code-block .arg { color: #86EFAC; }
+  .code-block .comment { color: #6B6860; font-style: italic; }
+  .code-block .output { color: #A8A29E; }
+
+  /* ── CALLOUT ── */
+  .callout {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    font-size: 14px;
+    margin: 16px 0;
+    line-height: 1.5;
+  }
+  .callout.info { background: #F0F4F8; border-left: 3px solid #64748B; }
+  .callout.tip  { background: #FFF0F0; border-left: 3px solid #E57373; }
+  .callout.note { background: #F0F4F8; border-left: 3px solid #64748B; }
+  .callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .callout strong { display: block; font-weight: 600; margin-bottom: 2px; }
+
+  /* ── ANALOGY BOX ── */
+  .analogy {
+    background: var(--purple-light);
+    border: 1px solid #DDD6FE;
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 20px 0;
+    font-size: 14px;
+  }
+  .analogy-title {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--purple);
+    margin-bottom: 8px;
+  }
+  .analogy p { color: var(--text); line-height: 1.6; }
+
+  /* ── STAGE DIAGRAM ── */
+  .stage-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    margin: 20px 0;
+  }
+  .stage-box {
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-align: center;
+    width: 100%;
+    max-width: 420px;
+  }
+  .stage-box .stage-name {
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: .03em;
+    margin-bottom: 4px;
+  }
+  .stage-box .stage-desc {
+    font-size: 11px;
+    color: var(--text-muted);
+    line-height: 1.4;
+  }
+  .stage-box.working { background: #FEF3E2; border: 1.5px solid #FCD34D; }
+  .stage-box.staging { background: var(--accent-light); border: 1.5px solid var(--accent-muted); }
+  .stage-box.committed { background: var(--green-light); border: 1.5px solid #6EE7B7; }
+  .stage-arrow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    color: var(--text-muted);
+    font-weight: 500;
+    padding: 4px 0;
+    width: 100%;
+    max-width: 420px;
+  }
+  .stage-arrow svg { color: var(--arrow); }
+
+  /* ── FORK DIAGRAM ── */
+  .fork-diagram {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    padding: 10px 0;
+  }
+  .repo-node {
+    border-radius: 10px;
+    padding: 14px 22px;
+    text-align: center;
+    min-width: 180px;
+  }
+  .repo-node.original {
+    background: var(--remote-light);
+    border: 1.5px solid #6EE7B7;
+  }
+  .repo-node.fork {
+    background: var(--remote-light);
+    border: 1.5px solid #6EE7B7;
+  }
+  .repo-node.local-clone {
+    background: var(--local-light);
+    border: 1.5px solid var(--accent-muted);
+  }
+  .repo-node .node-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: .06em;
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .original .node-label { color: var(--remote); }
+  .fork .node-label { color: var(--remote); }
+  .local-clone .node-label { color: var(--local); }
+  .repo-node .node-name {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text);
+  }
+  .fork-row {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+  }
+  .connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding: 6px 0;
+  }
+  .connector-line {
+    width: 2px;
+    height: 28px;
+    background: var(--border);
+  }
+  .connector-label {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-muted);
+    font-weight: 500;
+    letter-spacing: .04em;
+  }
+  .fork-connectors {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    position: relative;
+  }
+  .fork-connectors::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%);
+    height: 2px;
+    width: 160px;
+    background: var(--border);
+  }
+
+  /* ── NAVIGATION ── */
+  .nav-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 24px 48px;
+    border-top: 1px solid var(--border);
+  }
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    border: 1.5px solid var(--border);
+    background: var(--surface);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    transition: all .15s;
+  }
+  .nav-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .nav-btn.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+  }
+  .nav-btn.primary:hover { background: #1E4BC4; border-color: #1E4BC4; }
+  .nav-btn:disabled { opacity: .35; cursor: default; pointer-events: none; }
+  .progress-text {
+    font-size: 13px;
+    color: var(--text-muted);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── GLOSSARY CHIPS ── */
+  .glossary-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .glossary-chip {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 500;
+    border: 1.5px solid transparent;
+  }
+  .chip-mono { font-family: 'DM Mono', monospace; }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="header-tag">Beginner's Guide</div>
+  <h1>Git &amp; GitHub<br>From Your Computer to the Cloud</h1>
+  <p>A visual, step-by-step guide to understanding version control — no prior experience needed.</p>
+</header>
+
+<!-- PROGRESS NAV -->
+<div class="progress-bar" id="progressBar">
+  <div class="prog-item active" onclick="goTo(0)">
+    <span class="prog-num">1</span> What is Git?
+  </div>
+  <div class="prog-item" onclick="goTo(1)">
+    <span class="prog-num">2</span> Local vs Remote
+  </div>
+  <div class="prog-item" onclick="goTo(2)">
+    <span class="prog-num">3</span> Add &amp; Commit
+  </div>
+  <div class="prog-item" onclick="goTo(3)">
+    <span class="prog-num">4</span> Push &amp; Pull
+  </div>
+  <div class="prog-item" onclick="goTo(4)">
+    <span class="prog-num">5</span> Fork &amp; Clone
+  </div>
+  <div class="prog-item" onclick="goTo(5)">
+    <span class="prog-num">6</span> Branches
+  </div>
+  <div class="prog-item" onclick="goTo(6)">
+    <span class="prog-num">7</span> Pull Requests
+  </div>
+</div>
+
+<main>
+
+  <!-- ══ SECTION 1: WHAT IS GIT ══ -->
+  <div class="section active" id="sec-0">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FEF9C3;">📖</div>
+      <div>
+        <h2>What is Git — and why does it matter?</h2>
+        <p>Understanding the core idea before touching a command</p>
+      </div>
+    </div>
+
+    <p style="color:var(--text-muted);margin-bottom:20px;font-size:15px;">
+      Imagine working on training notes and saving them as <code style="font-family:&#39;DM Mono&#39;,monospace;font-size:13px;background:var(--bg);padding:2px 6px;border-radius:4px;">notes.txt</code>, then <code style="font-family:&#39;DM Mono&#39;,monospace;font-size:13px;background:var(--bg);padding:2px 6px;border-radius:4px;">notes_v2.txt</code>, then <code style="font-family:&#39;DM Mono&#39;,monospace;font-size:13px;background:var(--bg);padding:2px 6px;border-radius:4px;">notes_FINAL_really_final.txt</code>… Git is a smarter way to track changes so you never need that chaos.
+    </p>
+
+    <div class="diagram-wrap">
+      <div class="diagram-label" style="text-align:center;">Before vs after using Git</div>
+      <svg viewBox="0 0 580 260" xmlns="http://www.w3.org/2000/svg" style="width:100%;max-width:560px;display:block;margin:0 auto;">
+        <defs>
+          <marker id="chk" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto">
+            <path d="M0,0 L0,8 L10,4 z" fill="#0F6E56"></path>
+          </marker>
+        </defs>
+
+        <!-- LEFT: without git -->
+        <rect x="10" y="10" width="250" height="240" rx="8" fill="#FCEBEB" stroke="#E24B4A" stroke-width="1.5"></rect>
+        <text x="135" y="34" font-family="DM Sans,sans-serif" font-size="14" font-weight="600" fill="#A32D2D" text-anchor="middle">without Git</text>
+
+        <rect x="26" y="48" width="218" height="28" rx="4" fill="#F7C1C1" stroke="#F09595" stroke-width="0.5"></rect>
+        <text x="38" y="67" font-family="DM Mono,monospace" font-size="13" fill="#501313">notes.txt</text>
+
+        <rect x="26" y="84" width="218" height="28" rx="4" fill="#F7C1C1" stroke="#F09595" stroke-width="0.5"></rect>
+        <text x="38" y="103" font-family="DM Mono,monospace" font-size="13" fill="#501313">notes_v2.txt</text>
+
+        <rect x="26" y="120" width="218" height="28" rx="4" fill="#F7C1C1" stroke="#F09595" stroke-width="0.5"></rect>
+        <text x="38" y="139" font-family="DM Mono,monospace" font-size="13" fill="#501313">notes_final.txt</text>
+
+        <rect x="26" y="156" width="218" height="28" rx="4" fill="#F7C1C1" stroke="#F09595" stroke-width="0.5"></rect>
+        <text x="38" y="175" font-family="DM Mono,monospace" font-size="13" fill="#501313">notes_final_v2.txt</text>
+
+        <rect x="26" y="192" width="218" height="28" rx="4" fill="#F7C1C1" stroke="#F09595" stroke-width="0.5"></rect>
+        <text x="38" y="211" font-family="DM Mono,monospace" font-size="12" fill="#501313">notes_FINAL_really_final.txt</text>
+
+        <circle cx="243" cy="232" r="12" fill="#E24B4A"></circle>
+        <text x="243" y="237" font-family="DM Sans,sans-serif" font-size="15" font-weight="600" fill="#FCEBEB" text-anchor="middle">✕</text>
+
+        <!-- DIVIDER -->
+        <line x1="290" y1="20" x2="290" y2="240" stroke="#CBD5E1" stroke-width="1" stroke-dasharray="4,4"></line>
+
+        <!-- RIGHT: with git -->
+        <rect x="320" y="10" width="250" height="240" rx="8" fill="#E1F5EE" stroke="#1D9E75" stroke-width="1.5"></rect>
+        <text x="445" y="34" font-family="DM Sans,sans-serif" font-size="14" font-weight="600" fill="#0F6E56" text-anchor="middle">with Git</text>
+
+        <!-- timeline spine -->
+        <line x1="370" y1="52" x2="370" y2="218" stroke="#9FE1CB" stroke-width="2"></line>
+
+        <!-- commit 1 -->
+        <circle cx="370" cy="62" r="6" fill="#1D9E75" stroke="#E1F5EE" stroke-width="2"></circle>
+        <rect x="385" y="51" width="167" height="24" rx="4" fill="#9FE1CB" stroke="#5DCAA5" stroke-width="0.5"></rect>
+        <text x="396" y="67" font-family="DM Sans,sans-serif" font-size="13" fill="#085041">Add week 1 notes</text>
+
+        <!-- commit 2 -->
+        <circle cx="370" cy="100" r="6" fill="#1D9E75" stroke="#E1F5EE" stroke-width="2"></circle>
+        <rect x="385" y="89" width="167" height="24" rx="4" fill="#9FE1CB" stroke="#5DCAA5" stroke-width="0.5"></rect>
+        <text x="396" y="105" font-family="DM Sans,sans-serif" font-size="13" fill="#085041">Revise week 2 content</text>
+
+        <!-- commit 3 -->
+        <circle cx="370" cy="138" r="6" fill="#1D9E75" stroke="#E1F5EE" stroke-width="2"></circle>
+        <rect x="385" y="127" width="167" height="24" rx="4" fill="#9FE1CB" stroke="#5DCAA5" stroke-width="0.5"></rect>
+        <text x="396" y="143" font-family="DM Sans,sans-serif" font-size="13" fill="#085041">Add week 3 examples</text>
+
+        <!-- commit 4 -->
+        <circle cx="370" cy="176" r="6" fill="#1D9E75" stroke="#E1F5EE" stroke-width="2"></circle>
+        <rect x="385" y="165" width="167" height="24" rx="4" fill="#9FE1CB" stroke="#5DCAA5" stroke-width="0.5"></rect>
+        <text x="396" y="181" font-family="DM Sans,sans-serif" font-size="13" fill="#085041">Update quiz questions</text>
+
+        <!-- commit 5 -->
+        <circle cx="370" cy="214" r="6" fill="#1D9E75" stroke="#E1F5EE" stroke-width="2"></circle>
+        <rect x="385" y="203" width="167" height="24" rx="4" fill="#9FE1CB" stroke="#5DCAA5" stroke-width="0.5"></rect>
+        <text x="396" y="219" font-family="DM Sans,sans-serif" font-size="13" fill="#085041">Final edits</text>
+
+        <circle cx="553" cy="232" r="12" fill="#1D9E75"></circle>
+        <text x="553" y="237" font-family="DM Sans,sans-serif" font-size="15" font-weight="600" fill="#E1F5EE" text-anchor="middle">✓</text>
+
+      </svg>
+    </div>
+
+    <div class="analogy">
+      <div class="analogy-title">💡 The core analogy</div>
+      <p><strong>Git is like a time machine for your files.</strong> Every time you save a meaningful checkpoint (called a <em>commit</em>), Git remembers exactly what your project looked like at that moment. You can always go back, compare versions, or work on new ideas without breaking what already works.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px;">
+      <div class="concept-card">
+        <h3>🗂 Git</h3>
+        <p>A <strong>version control system</strong> that runs on your own computer. It tracks every change you make to your files over time. On its own, Git only works locally — to share your work or collaborate with others, you need a hosting platform.</p>
+      </div>
+      <div class="concept-card">
+        <h3>☁️ Git hosting platforms</h3>
+        <p>Websites that store your Git project in the cloud so you can back it up, share it, and collaborate with others. Common examples include <strong>GitHub</strong>, <strong>GitLab</strong>, and <strong>Bitbucket</strong>.</p>
+      </div>
+    </div>
+
+    <div class="callout info" style="margin-top:20px;">
+      <span class="callout-icon">💡</span>
+      <div><strong>Note: Git ≠ GitHub (or GitLab, or Bitbucket)</strong> Git is the tool. Hosting platforms are services that let you use it in the cloud — like how email is the tool, and Gmail or Outlook are services that provide it.</div>
+    </div>
+
+  </div>
+
+  <!-- ══ SECTION 2: LOCAL VS REMOTE ══ -->
+  <div class="section" id="sec-1">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FEF9C3;">🖥</div>
+      <div>
+        <h2>Local vs Remote Repository</h2>
+        <p>Your files live in two places — here's how they relate</p>
+      </div>
+    </div>
+
+    <p style="color:var(--text-muted);margin-bottom:20px;">A <strong>repository</strong> (or "repo") is just a folder that Git is tracking. The same project exists in two places: on your personal computer, and on a Git hosting platform in the cloud.</p>
+
+    <div class="diagram-wrap">
+      <div class="diagram-label" style="text-align:center;">The two environments</div>
+      <div class="two-col-diagram">
+        <!-- REMOTE (top) -->
+        <div class="env-box remote">
+          <div class="env-title">☁️ Remote — Git hosting platform</div>
+          <ul class="file-list">
+            <li>📄 notes.txt</li>
+            <li>📝 report.docx</li>
+            <li>📊 data.xlsx</li>
+            <li>📜 commit history</li>
+          </ul>
+        </div>
+
+        <!-- ARROWS -->
+        <div class="arrow-col">
+          <div class="arrow-pill push">↑ push</div>
+          <div class="arrow-pill pull">pull ↓</div>
+        </div>
+
+        <!-- LOCAL (bottom) -->
+        <div class="env-box local">
+          <div class="env-title">🖥 Local — Your Computer</div>
+          <ul class="file-list">
+            <li>📄 notes.txt</li>
+            <li>📝 report.docx</li>
+            <li>📊 data.xlsx</li>
+            <li>📁 .git/</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="analogy">
+      <div class="analogy-title">💡 Think of it like a shared document</div>
+      <p>Your local repo is like a <strong>printed copy on your desk</strong> — you can mark it up freely. The remote repo on your hosting platform is like the <strong>master copy in a shared filing cabinet</strong>. When you're happy with your changes, you send them up (<em>push</em>). To get the latest version someone else added, you bring it down (<em>pull</em>).</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;">
+      <div class="concept-card">
+        <h3 style="color:var(--local);">🖥 Local Repository</h3>
+        <p>Lives on your machine. You can edit files, test changes, and use Git — all without internet access.</p>
+      </div>
+      <div class="concept-card">
+        <h3 style="color:var(--remote);">☁️ Remote Repository</h3>
+        <p>Lives on a Git hosting platform (such as GitHub or GitLab). Serves as the shared, backed-up version that teammates (or your future self) can access.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">💡</span>
+      <div><strong>Note: Changes don't sync automatically</strong> Changes you make locally do <em>not</em> automatically appear on your hosting platform. You have to explicitly send them up. This gives you full control over what gets shared.</div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 3: ADD & COMMIT ══ -->
+  <div class="section" id="sec-2">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FEF9C3;">📦</div>
+      <div>
+        <h2>git add &amp; git commit</h2>
+        <p>Preparing and saving a snapshot of your work</p>
+      </div>
+    </div>
+
+    <p style="color:var(--text-muted);margin-bottom:20px;">For Git to log the changes made to a file in the local repo, two things need to happen: <strong>staging</strong> (selecting what to include) and <strong>committing</strong> (saving the snapshot with a message). Only after committing can you send your updated files to the remote repo.</p>
+
+    <!-- STAGE DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-label" style="text-align:center;">The three states of a file</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0;background:#DBEAFE;border:2px solid #93C5FD;border-radius:10px;padding:16px 20px 20px;max-width:320px;margin:0 auto;">
+        <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#1E40AF;letter-spacing:.08em;text-align:center;text-transform:uppercase;margin-bottom:14px;">🖥  Local Repository</div>
+
+        <!-- Saved box -->
+        <div style="background:#BFDBFE;border:1.5px solid #93C5FD;border-radius:8px;padding:14px 16px;text-align:center;width:100%;max-width:260px;">
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:11px;font-weight:600;color:#1E40AF;">Saved</div>
+          <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;color:#1E40AF;margin-top:3px;">locked into Git's history</div>
+        </div>
+
+        <!-- git commit pill -->
+        <div style="padding:8px 0;display:flex;justify-content:center;">
+          <span class="arrow-pill push" style="background:var(--accent-light);color:var(--accent);">↑ git commit</span>
+        </div>
+
+        <!-- Staging Area box (neutral grey — transient state) -->
+        <div style="background:#F1F5F9;border:1.5px solid #CBD5E1;border-radius:8px;padding:14px 16px;text-align:center;width:100%;max-width:260px;">
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:11px;font-weight:600;color:#475569;">Staging Area</div>
+          <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;color:#64748B;margin-top:3px;">ready to commit</div>
+        </div>
+
+        <!-- git add pill -->
+        <div style="padding:8px 0;display:flex;justify-content:center;">
+          <span class="arrow-pill push" style="background:var(--accent-light);color:var(--accent);">↑ git add</span>
+        </div>
+
+        <!-- Draft box (amber — unchanged) -->
+        <div style="background:#FEF3E2;border:1.5px solid #FCD34D;border-radius:8px;padding:14px 16px;text-align:center;width:100%;max-width:260px;">
+          <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:11px;font-weight:600;color:#B45309;">Draft</div>
+          <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;color:#92400E;margin-top:3px;">edited files</div>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:13px;color:var(--text-muted);margin-top:-8px;">💡 <strong>Saved</strong> means your changes are recorded in your local repo. Use <code style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;">git push</code> to send them up to your hosting platform.</p>
+
+    <div class="analogy">
+      <div class="analogy-title">💡 The packing analogy</div>
+      <p style="font-size:14px;color:var(--text);margin-bottom:14px;">Think of sending files from the local repo to the remote repo like shipping a package. <strong>git add</strong> is putting items into the box — you choose exactly what to include. <strong>git commit</strong> is sealing and labeling the box before it goes into storage. The label (your commit message) describes what's inside.</p>
+      <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin:0 0 8px;">
+
+        <!-- git add: open box -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <svg width="72" height="64" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- box body — identical position to git commit -->
+            <rect x="10" y="18" width="52" height="38" rx="3" fill="#FEF3E2" stroke="#F59E0B" stroke-width="2"></rect>
+            <!-- left flap folded outward -->
+            <path d="M10 18 L2 12 L10 26" fill="#FDE68A" stroke="#F59E0B" stroke-width="1.8" stroke-linejoin="round"></path>
+            <!-- right flap folded outward -->
+            <path d="M62 18 L70 12 L62 26" fill="#FDE68A" stroke="#F59E0B" stroke-width="1.8" stroke-linejoin="round"></path>
+            <!-- file going in -->
+            <rect x="28" y="4" width="16" height="12" rx="2" fill="#93C5FD" stroke="#3B82F6" stroke-width="1.5"></rect>
+            <line x1="31" y1="8" x2="41" y2="8" stroke="#3B82F6" stroke-width="1.2"></line>
+            <line x1="31" y1="11" x2="38" y2="11" stroke="#3B82F6" stroke-width="1.2"></line>
+            <!-- arrow down into box -->
+            <path d="M36 17 L36 22" stroke="#F59E0B" stroke-width="1.8" stroke-linecap="round" marker-end="url(#addArr)"></path>
+            <defs>
+              <marker id="addArr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto">
+                <path d="M0,0 L0,6 L6,3 z" fill="#F59E0B"></path>
+              </marker>
+            </defs>
+          </svg>
+          <div style="text-align:center;">
+            <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;font-weight:600;color:var(--amber);">git add</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Put files in the box</div>
+          </div>
+        </div>
+
+        <!-- git commit: sealed box with label -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <svg width="72" height="64" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- box body -->
+            <rect x="10" y="18" width="52" height="38" rx="3" fill="#FEF3E2" stroke="#F59E0B" stroke-width="2"></rect>
+            <!-- sealed top flap -->
+            <rect x="10" y="14" width="52" height="8" rx="2" fill="#FDE68A" stroke="#F59E0B" stroke-width="1.8"></rect>
+            <!-- tape strip -->
+            <rect x="30" y="12" width="12" height="12" rx="1" fill="#FCD34D" opacity="0.8"></rect>
+            <!-- label on box -->
+            <rect x="18" y="32" width="36" height="16" rx="2" fill="white" stroke="#F59E0B" stroke-width="1.2"></rect>
+            <line x1="22" y1="37" x2="46" y2="37" stroke="#F59E0B" stroke-width="1.2"></line>
+            <line x1="22" y1="41" x2="40" y2="41" stroke="#F59E0B" stroke-width="1.2"></line>
+          </svg>
+          <div style="text-align:center;">
+            <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;font-weight:600;color:var(--accent);">git commit</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Seal &amp; label the box</div>
+          </div>
+        </div>
+
+        <!-- git push: delivery truck -->
+        <div style="display:flex;flex-direction:column;align-items:center;gap:8px;">
+          <svg width="72" height="64" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <!-- truck body / cargo -->
+            <rect x="4" y="22" width="40" height="26" rx="3" fill="#D1FAE5" stroke="#34D399" stroke-width="2"></rect>
+            <!-- cab -->
+            <path d="M44 34 L44 48 L66 48 L66 38 L58 28 L44 28 Z" fill="#A7F3D0" stroke="#34D399" stroke-width="2" stroke-linejoin="round"></path>
+            <!-- windshield -->
+            <path d="M58 30 L64 38 L50 38 L50 30 Z" fill="#BAE6FD" stroke="#34D399" stroke-width="1.2"></path>
+            <!-- wheels -->
+            <circle cx="18" cy="50" r="6" fill="#6B7280" stroke="#374151" stroke-width="1.5"></circle>
+            <circle cx="18" cy="50" r="2.5" fill="#D1FAE5"></circle>
+            <circle cx="54" cy="50" r="6" fill="#6B7280" stroke="#374151" stroke-width="1.5"></circle>
+            <circle cx="54" cy="50" r="2.5" fill="#A7F3D0"></circle>
+            <!-- motion lines -->
+            <line x1="1" y1="30" x2="6" y2="30" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"></line>
+            <line x1="1" y1="35" x2="7" y2="35" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"></line>
+            <line x1="1" y1="40" x2="5" y2="40" stroke="#34D399" stroke-width="1.5" stroke-linecap="round"></line>
+          </svg>
+          <div style="text-align:center;">
+            <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;font-weight:600;color:var(--green);">git push</div>
+            <div style="font-size:12px;color:var(--text-muted);margin-top:2px;">Ship it to GitHub</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="workflow-steps">
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--amber-light);color:var(--amber);">1</div>
+        <div class="step-body">
+          <h4>Stage your changes with <code style="font-family:&#39;DM Mono&#39;,monospace;font-weight:400;">git add</code></h4>
+          <p>Tell Git which changed files you want to include in the next snapshot.</p>
+          <div class="code-block">
+            <span class="prompt">$ </span><span class="cmd">git add</span> <span class="arg">notes.txt</span>
+            <br><span class="comment"># Stage a specific file</span>
+            <br><br><span class="prompt">$ </span><span class="cmd">git add</span> <span class="flag">.</span>
+            <br><span class="comment"># Stage ALL changed files in the folder</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--accent-light);color:var(--accent);">2</div>
+        <div class="step-body">
+          <h4>Save a snapshot with <code style="font-family:&#39;DM Mono&#39;,monospace;font-weight:400;">git commit</code></h4>
+          <p>Lock in your staged changes with a short message describing what you did.</p>
+          <div class="code-block">
+            <span class="prompt">$ </span><span class="cmd">git commit</span> <span class="flag">-m</span> <span class="arg">"Add lecture notes from week 3"</span>
+            <br><br><span class="output">[main 3a2f8c1] Add lecture notes from week 3</span>
+            <br><span class="output"> 1 file changed, 8 insertions(+), 1 deletion(-)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✅</span>
+      <div><strong>Tip: Write clear commit messages</strong> Future you (and teammates) will be grateful. A good message starts with a verb: "Fix login bug", "Add search feature", "Update README".</div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 4: PUSH & PULL ══ -->
+  <div class="section" id="sec-3">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FEF9C3;">🔄</div>
+      <div>
+        <h2>git push &amp; git pull</h2>
+        <p>Syncing changes between your computer and GitHub</p>
+      </div>
+    </div>
+
+    <p style="color:var(--text-muted);margin-bottom:20px;">Once you've committed locally, your changes still only exist on your machine. <strong>push</strong> sends them to your hosting platform; <strong>pull</strong> brings the latest changes from your hosting platform down to your machine.</p>
+
+    <!-- FULL FLOW DIAGRAM -->
+    <div class="diagram-wrap">
+      <div class="diagram-label" style="text-align:center;">Complete sync workflow</div>
+
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0;max-width:340px;margin:0 auto;">
+
+        <!-- Remote repo box (top) -->
+        <div style="background:#D1FAE5;border:2px solid #6EE7B7;border-radius:10px;padding:16px 20px;text-align:center;width:100%;">
+          <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#065F46;letter-spacing:.08em;text-align:center;text-transform:uppercase;">☁️  Remote Repository</div>
+        </div>
+
+        <!-- push / pull pills -->
+        <div style="padding:8px 0;display:flex;justify-content:center;gap:8px;">
+          <span class="arrow-pill push">↑ push</span>
+          <span class="arrow-pill pull">pull ↓</span>
+        </div>
+
+        <!-- Local Repository outer box -->
+        <div style="background:#DBEAFE;border:2px solid #93C5FD;border-radius:10px;padding:16px 20px 20px;width:100%;">
+          <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#1E40AF;letter-spacing:.08em;text-align:center;text-transform:uppercase;margin-bottom:14px;">🖥  Local Repository</div>
+
+          <!-- Saved box -->
+          <div style="background:#BFDBFE;border:1.5px solid #93C5FD;border-radius:8px;padding:14px 16px;text-align:center;">
+            <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:11px;font-weight:600;color:#1E40AF;">Saved</div>
+            <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;color:#1E40AF;margin-top:3px;">commits</div>
+          </div>
+
+          <!-- git commit pill -->
+          <div style="padding:8px 0;display:flex;justify-content:center;">
+            <span class="arrow-pill push" style="background:var(--accent-light);color:var(--accent);">↑ git commit</span>
+          </div>
+
+          <!-- Staging Area box (neutral grey) -->
+          <div style="background:#F1F5F9;border:1.5px solid #CBD5E1;border-radius:8px;padding:14px 16px;text-align:center;">
+            <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:11px;font-weight:600;color:#475569;">Staging Area</div>
+            <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;color:#64748B;margin-top:3px;">ready to commit</div>
+          </div>
+
+          <!-- git add pill -->
+          <div style="padding:8px 0;display:flex;justify-content:center;">
+            <span class="arrow-pill push" style="background:var(--accent-light);color:var(--accent);">↑ git add</span>
+          </div>
+
+          <!-- Draft box (amber) -->
+          <div style="background:#FEF3E2;border:1.5px solid #FCD34D;border-radius:8px;padding:14px 16px;text-align:center;">
+            <div style="font-family:&#39;DM Sans&#39;,sans-serif;font-size:11px;font-weight:600;color:#B45309;">Draft</div>
+            <div style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;color:#92400E;margin-top:3px;">edited files</div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="workflow-steps" style="margin-top:24px;">
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--green-light);color:var(--green);">0</div>
+        <div class="step-body">
+          <h4>Connect your local machine to your remote repo with <code style="font-family:'DM Mono',monospace;font-weight:400;">git clone</code></h4>
+          <p>Before you can push or pull, you need a local copy of your remote repository. Run this once to download it and set up the connection automatically.</p>
+          <div class="code-block">
+            <span class="prompt">$ </span><span class="cmd">git clone</span> <span class="arg">https://github.com/yourname/git-practice.git</span>
+            <br><br><span class="output">Cloning into 'git-practice'...</span>
+            <br><span class="output">remote: Counting objects: 3, done.</span>
+            <br><span class="output">Receiving objects: 100% (3/3), done.</span>
+          </div>
+          <div class="callout info" style="margin-top:8px;">
+            <span class="callout-icon">💡</span>
+            <div><strong>Note:</strong> You only need to run <code style="font-family:'DM Mono',monospace;font-size:12px;">git clone</code> once per project. After that, use <code style="font-family:'DM Mono',monospace;font-size:12px;">git pull</code> to keep your local copy up to date.</div>
+          </div>
+          <div class="callout info" style="margin-top:8px;">
+            <span class="callout-icon">💡</span>
+            <div><strong>Note: git init</strong> <code style="font-family:'DM Mono',monospace;font-size:12px;">git clone</code> is used when a remote repository already exists. If you were starting a brand new project locally from scratch, you would use <code style="font-family:'DM Mono',monospace;font-size:12px;">git init</code> instead — but that is outside the scope of this tutorial.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--accent-light);color:var(--accent);">↑</div>
+        <div class="step-body">
+          <h4>Send your commits to your hosting platform with <code style="font-family:&#39;DM Mono&#39;,monospace;font-weight:400;">git push</code></h4>
+          <p>Uploads all your local commits to the remote repository.</p>
+          <div class="code-block">
+            <span class="prompt">$ </span><span class="cmd">git push</span> <span class="arg">origin main</span>
+            <br><span class="comment"># "origin" = your remote, "main" = the branch name</span>
+            <br><br><span class="output">Enumerating objects: 5, done.</span>
+            <br><span class="output">To https://github.com/yourname/myproject.git</span>
+            <br><span class="output">   3a2f8c1..9b4e2d0  main → main</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--green-light);color:var(--green);">↓</div>
+        <div class="step-body">
+          <h4>Get the latest changes with <code style="font-family:&#39;DM Mono&#39;,monospace;font-weight:400;">git pull</code></h4>
+          <p>Downloads new commits from your hosting platform and merges them into your local copy.</p>
+          <div class="code-block">
+            <span class="prompt">$ </span><span class="cmd">git pull</span> <span class="arg">origin main</span>
+            <br><br><span class="output">remote: Enumerating objects: 3, done.</span>
+            <br><span class="output">Updating 3a2f8c1..9b4e2d0</span>
+            <br><span class="output">Fast-forward</span>
+            <br><span class="output"> README.md | 4 ++--</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✅</span>
+      <div><strong>Tip: Always pull before you start working</strong> Run <code style="font-family:'DM Mono',monospace;font-size:12px;">git pull</code> at the start of each session. This ensures you're working from the latest version, especially when collaborating.</div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">💡</span>
+      <div><strong>Note: git pull ≠ Pull Request</strong> <code style="font-family:'DM Mono',monospace;font-size:12px;">git pull</code> is a command that downloads the latest changes from a remote repository to your local machine. A Pull Request is a separate concept — it's a request on the hosting platform asking teammates to review and approve your changes before they are merged. We cover Pull Requests in Section 7.</div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 5: FORK & CLONE ══ -->
+  <div class="section" id="sec-4">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FEF9C3;">🍴</div>
+      <div>
+        <h2>Fork &amp; Clone</h2>
+        <p>Copying someone else's project to work on it yourself</p>
+      </div>
+    </div>
+
+    <p style="color:var(--text-muted);margin-bottom:20px;">
+      Sometimes you want to work on a project you don't own — maybe to contribute, or to use it as a starting point. That's where <strong>fork</strong> and <strong>clone</strong> come in. They're related but different.
+    </p>
+
+    <div class="diagram-wrap">
+      <div class="diagram-label" style="text-align:center;">Fork then Clone workflow</div>
+      <svg width="100%" viewBox="0 0 500 370" xmlns="http://www.w3.org/2000/svg" style="display:block;max-width:560px;margin:0 auto;">
+
+        <!-- Original remote repo (top centre) -->
+        <rect x="150" y="10" width="200" height="52" rx="8" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1.5"/>
+        <text x="250" y="28" font-family="DM Sans,sans-serif" font-size="9" font-weight="600" fill="#065F46" text-anchor="middle" dominant-baseline="central" letter-spacing="1.2">REMOTE REPOSITORY</text>
+        <text x="250" y="46" font-family="DM Mono,monospace" font-size="10" fill="#065F46" text-anchor="middle" dominant-baseline="central">someone/training-notes</text>
+
+        <!-- fork pill left -->
+        <rect x="68" y="76" width="64" height="20" rx="10" fill="#EAF5EE" stroke="#6EE7B7" stroke-width="1"/>
+        <text x="100" y="86" font-family="DM Mono,monospace" font-size="10" font-weight="500" fill="#1E7A4C" text-anchor="middle" dominant-baseline="central">fork ↓</text>
+
+        <!-- fork pill right -->
+        <rect x="368" y="76" width="64" height="20" rx="10" fill="#EAF5EE" stroke="#6EE7B7" stroke-width="1"/>
+        <text x="400" y="86" font-family="DM Mono,monospace" font-size="10" font-weight="500" fill="#1E7A4C" text-anchor="middle" dominant-baseline="central">fork ↓</text>
+
+        <!-- Your fork -->
+        <rect x="20" y="110" width="160" height="52" rx="8" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1.5"/>
+        <text x="100" y="128" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#065F46" text-anchor="middle" dominant-baseline="central">Your fork</text>
+        <text x="100" y="146" font-family="DM Mono,monospace" font-size="10" fill="#065F46" text-anchor="middle" dominant-baseline="central">you/training-notes</text>
+
+        <!-- Teammate's fork -->
+        <rect x="320" y="110" width="160" height="52" rx="8" fill="#D1FAE5" stroke="#6EE7B7" stroke-width="1.5"/>
+        <text x="400" y="128" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#065F46" text-anchor="middle" dominant-baseline="central">Teammate's fork</text>
+        <text x="400" y="146" font-family="DM Mono,monospace" font-size="10" fill="#065F46" text-anchor="middle" dominant-baseline="central">ali/training-notes</text>
+
+        <!-- clone pill left -->
+        <rect x="68" y="176" width="64" height="20" rx="10" fill="#EAF5EE" stroke="#6EE7B7" stroke-width="1"/>
+        <text x="100" y="186" font-family="DM Mono,monospace" font-size="10" font-weight="500" fill="#1E7A4C" text-anchor="middle" dominant-baseline="central">clone ↓</text>
+
+        <!-- clone pill right -->
+        <rect x="368" y="176" width="64" height="20" rx="10" fill="#EAF5EE" stroke="#6EE7B7" stroke-width="1"/>
+        <text x="400" y="186" font-family="DM Mono,monospace" font-size="10" font-weight="500" fill="#1E7A4C" text-anchor="middle" dominant-baseline="central">clone ↓</text>
+
+        <!-- Your local copy -->
+        <rect x="20" y="210" width="160" height="52" rx="8" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5"/>
+        <text x="100" y="228" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#1E40AF" text-anchor="middle" dominant-baseline="central">Your local copy</text>
+        <text x="100" y="246" font-family="DM Mono,monospace" font-size="10" fill="#1E40AF" text-anchor="middle" dominant-baseline="central">~/training-notes/</text>
+
+        <!-- Teammate's local copy -->
+        <rect x="320" y="210" width="160" height="52" rx="8" fill="#DBEAFE" stroke="#93C5FD" stroke-width="1.5"/>
+        <text x="400" y="228" font-family="DM Sans,sans-serif" font-size="10" font-weight="600" fill="#1E40AF" text-anchor="middle" dominant-baseline="central">Teammate's local copy</text>
+        <text x="400" y="246" font-family="DM Mono,monospace" font-size="10" fill="#1E40AF" text-anchor="middle" dominant-baseline="central">~/training-notes/</text>
+
+        <!-- Person labels -->
+        <text x="100" y="282" font-family="DM Sans,sans-serif" font-size="9" fill="#6B6860" text-anchor="middle" dominant-baseline="central">You</text>
+        <text x="400" y="282" font-family="DM Sans,sans-serif" font-size="9" fill="#6B6860" text-anchor="middle" dominant-baseline="central">Ali</text>
+
+        <!-- Person icons -->
+        <circle cx="100" cy="308" r="9" fill="none" stroke="#1E7A4C" stroke-width="1.5"/>
+        <path d="M84 326 Q100 317 116 326" fill="none" stroke="#1E7A4C" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="400" cy="308" r="9" fill="none" stroke="#1E7A4C" stroke-width="1.5"/>
+        <path d="M384 326 Q400 317 416 326" fill="none" stroke="#1E7A4C" stroke-width="1.5" stroke-linecap="round"/>
+
+      </svg>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin:20px 0;">
+      <div class="concept-card">
+        <h3 style="color:var(--remote);">🍴 Fork (hosting platform action)</h3>
+        <p>Creates a <strong>copy of someone else's remote repo under your own account</strong>. Done on the hosting platform with one click. The copy is fully yours — you can change it freely without affecting the original.</p>
+      </div>
+      <div class="concept-card">
+        <h3 style="color:var(--local);">⬇️ Clone (Git command)</h3>
+        <p>Downloads a repository from your hosting platform to your local computer. Used after forking, or any time you want to work on a project locally for the first time.</p>
+      </div>
+    </div>
+
+    <div class="workflow-steps">
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--green-light);color:var(--green);">1</div>
+        <div class="step-body">
+          <h4>Fork the repo on your hosting platform</h4>
+          <p>Go to the repository page, click the <strong>Fork</strong> button. The hosting platform creates a copy under your account.</p>
+          <div class="callout info" style="margin-top:8px;">
+            <span class="callout-icon">💡</span>
+            <div><strong>Note: No terminal needed</strong> This step happens entirely on the hosting platform website.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--local-light);color:var(--local);">2</div>
+        <div class="step-body">
+          <h4>Clone your fork to your computer</h4>
+          <p>Copy the URL of your forked repo from your hosting platform, then run:</p>
+          <div class="code-block">
+            <span class="prompt">$ </span><span class="cmd">git clone</span> <span class="arg">https://github.com/you/training-notes.git</span>
+            <br><br><span class="output">Cloning into 'training-notes'...</span>
+            <br><span class="output">remote: Counting objects: 42, done.</span>
+            <br><span class="output">Receiving objects: 100% (42/42), done.</span>
+          </div>
+          <p style="margin-top:10px;">This creates a folder <code style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;background:var(--bg);padding:2px 5px;border-radius:4px;">training-notes/</code> on your machine with all the files inside.</p>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--green-light);color:var(--green);">3</div>
+        <div class="step-body">
+          <h4>Make changes, then push to your fork</h4>
+          <p>Work locally, commit your changes, and push them to <em>your</em> fork on the hosting platform — not the original.</p>
+          <div class="code-block">
+            <span class="prompt">$ </span><span class="cmd">git add</span> <span class="flag">.</span>
+            <br><span class="prompt">$ </span><span class="cmd">git commit</span> <span class="flag">-m</span> <span class="arg">"Fix typo in README"</span>
+            <br><span class="prompt">$ </span><span class="cmd">git push</span> <span class="arg">origin main</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✅</span>
+      <div><strong>Tip: You now know the full workflow!</strong> Fork → Clone → Edit → Add → Commit → Push. This is the foundation of contributing to almost any open-source project on GitHub.</div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 6: BRANCHES ══ -->
+  <div class="section" id="sec-5">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FEF9C3;">🌿</div>
+      <div>
+        <h2>Branches</h2>
+        <p>Working on a separate draft without touching the main version</p>
+      </div>
+    </div>
+
+    <p style="color:var(--text-muted);margin-bottom:20px;">When you're collaborating on training content, you don't want everyone editing the same files at the same time. A <strong>branch</strong> lets you work on your own version of the project — like a separate draft — without affecting what the rest of the team sees.</p>
+
+    <div class="analogy">
+      <div class="analogy-title">💡 The draft analogy</div>
+      <p>Think of the <strong>main branch</strong> as the published, approved version of your training content — the one everyone relies on. A new branch is like opening a fresh draft copy. You can revise it freely, and when it's ready and reviewed, it gets merged back into the published version. Until then, the original is completely untouched.</p>
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-label" style="text-align:center;">How branches relate to main</div>
+
+      <div style="max-width:500px;margin:0 auto;">
+
+        <!-- Column headers -->
+        <div style="display:grid;grid-template-columns:1fr 64px 1fr;gap:0;margin-bottom:8px;">
+          <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#1E40AF;letter-spacing:.08em;text-transform:uppercase;text-align:center;">🖥 Local</div>
+          <div></div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#065F46;letter-spacing:.08em;text-transform:uppercase;text-align:center;">☁️ Remote</div>
+        </div>
+
+        <!-- Row 1: Your draft changes → merge → Approved content -->
+        <div style="display:grid;grid-template-columns:1fr 64px 1fr;gap:0;align-items:center;">
+          <div style="background:#BFDBFE;border:1.5px solid #93C5FD;border-radius:8px;padding:12px 14px;text-align:center;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#1E40AF;">Your draft changes</div>
+            <div style="font-family:'DM Mono',monospace;font-size:12px;color:#1E40AF;margin-top:3px;">update-week3-notes</div>
+          </div>
+          <div style="display:flex;justify-content:center;">
+            <span class="arrow-pill pull" style="font-size:9px;padding:3px 8px;">merge →</span>
+          </div>
+          <div style="background:#D1FAE5;border:1.5px solid #6EE7B7;border-radius:8px;padding:12px 14px;text-align:center;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#065F46;">Approved content</div>
+            <div style="font-family:'DM Mono',monospace;font-size:12px;color:#065F46;margin-top:3px;">stable, shared version</div>
+          </div>
+        </div>
+
+        <!-- Row 2: git commit pill -->
+        <div style="display:grid;grid-template-columns:1fr 64px 1fr;gap:0;">
+          <div style="padding:8px 0;display:flex;justify-content:center;">
+            <span class="arrow-pill push" style="background:var(--accent-light);color:var(--accent);">↑ git commit</span>
+          </div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <!-- Row 3: Staging Area -->
+        <div style="display:grid;grid-template-columns:1fr 64px 1fr;gap:0;align-items:center;">
+          <div style="background:#EEF2FD;border:1.5px solid #C5D0F7;border-radius:8px;padding:12px 14px;text-align:center;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#1E4ED8;">Staging Area</div>
+            <div style="font-family:'DM Mono',monospace;font-size:12px;color:#3730A3;margin-top:3px;">ready to commit</div>
+          </div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <!-- Row 4: git add pill -->
+        <div style="display:grid;grid-template-columns:1fr 64px 1fr;gap:0;">
+          <div style="padding:8px 0;display:flex;justify-content:center;">
+            <span class="arrow-pill push" style="background:var(--accent-light);color:var(--accent);">↑ git add</span>
+          </div>
+          <div></div>
+          <div></div>
+        </div>
+
+        <!-- Row 5: Draft -->
+        <div style="display:grid;grid-template-columns:1fr 64px 1fr;gap:0;align-items:center;">
+          <div style="background:#FEF3E2;border:1.5px solid #FCD34D;border-radius:8px;padding:12px 14px;text-align:center;">
+            <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#B45309;">Draft</div>
+            <div style="font-family:'DM Mono',monospace;font-size:12px;color:#92400E;margin-top:3px;">your edits</div>
+          </div>
+          <div></div>
+          <div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="workflow-steps">
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--purple-light);color:var(--purple);">1</div>
+        <div class="step-body">
+          <h4>Create and switch to a new branch</h4>
+          <p>Give your branch a short, descriptive name that reflects what you're working on.</p>
+          <div class="code-block">
+            <span class="prompt">$ </span><span class="cmd">git checkout</span> <span class="flag">-b</span> <span class="arg">update-week3-notes</span>
+            <br><span class="output">Switched to a new branch 'update-week3-notes'</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--purple-light);color:var(--purple);">2</div>
+        <div class="step-body">
+          <h4>Work, add, and commit as usual</h4>
+          <p>All your changes stay on this branch. The main branch is unaffected.</p>
+          <div class="code-block">
+            <span class="prompt">$ </span><span class="cmd">git add</span> <span class="arg">notes.txt</span>
+            <br><span class="prompt">$ </span><span class="cmd">git commit</span> <span class="flag">-m</span> <span class="arg">"Update week 3 notes with new examples"</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--purple-light);color:var(--purple);">3</div>
+        <div class="step-body">
+          <h4>Push your branch to GitHub</h4>
+          <p>Share your draft branch with the team by pushing it to the remote repo.</p>
+          <div class="code-block">
+            <span class="prompt">$ </span><span class="cmd">git push</span> <span class="arg">origin update-week3-notes</span>
+            <br><span class="output">Branch 'update-week3-notes' set up to track remote branch.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✅</span>
+      <div><strong>Tip: Never edit directly on main</strong> Always create a new branch before making changes. This keeps the shared, approved version of your content safe.</div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:4px;">
+      <div class="concept-card">
+        <h3 style="color:var(--purple);">🌿 main branch</h3>
+        <p>The default, approved version of your project. Think of it as the published copy everyone on the team relies on.</p>
+      </div>
+      <div class="concept-card">
+        <h3 style="color:var(--purple);">🌱 feature branch</h3>
+        <p>Your personal draft. Make all your changes here until they're ready to be reviewed and merged into main.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ SECTION 7: PULL REQUESTS ══ -->
+  <div class="section" id="sec-6">
+    <div class="section-header">
+      <div class="section-icon" style="background:#FEF9C3;">🔀</div>
+      <div>
+        <h2>Pull Requests</h2>
+        <p>Proposing your changes and getting them reviewed before merging</p>
+      </div>
+    </div>
+
+    <p style="color:var(--text-muted);margin-bottom:20px;">Once your branch is pushed to your hosting platform, you don't merge it into <code style="font-family:'DM Mono',monospace;font-size:13px;background:var(--bg);padding:2px 5px;border-radius:4px;">main</code> straight away. Instead, you open a <strong>Pull Request (PR)</strong> — a formal way of saying "I'd like to merge my draft. Can someone review it first?"</p>
+
+    <div class="callout info">
+      <span class="callout-icon">💡</span>
+      <div><strong>Note: A Pull Request is not the same as git pull</strong> Despite the similar name, a Pull Request is a feature of your hosting platform — not a Git command. Think of it as a conversation, not a command.</div>
+    </div>
+
+    <div class="analogy">
+      <div class="analogy-title">💡 The editorial review analogy</div>
+      <p>Think of a pull request like submitting a draft to an editor. You've finished your revisions on your own copy and you're now asking a colleague to look it over before it goes into the official, published version. They can leave comments, request changes, or approve it. Only once it's approved does it get merged into the main content.</p>
+    </div>
+
+    <div class="diagram-wrap">
+      <div class="diagram-label" style="text-align:center;">The pull request workflow</div>
+      <div style="display:flex;flex-direction:column;align-items:center;gap:0;max-width:400px;margin:0 auto;">
+
+        <!-- Remote label -->
+        <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#065F46;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-bottom:6px;">☁️ Remote</div>
+
+        <!-- Merged into main (top) -->
+        <div style="background:#D1FAE5;border:1.5px solid #6EE7B7;border-radius:8px;padding:12px 20px;text-align:center;width:100%;">
+          <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#065F46;margin-bottom:3px;">Merged into main</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:12px;color:#065F46;">Your changes are now part of the official content</div>
+        </div>
+
+        <!-- approved pill -->
+        <div style="padding:8px 0;display:flex;justify-content:center;">
+          <span class="arrow-pill push" style="background:var(--accent-light);color:var(--accent);">↑ approved</span>
+        </div>
+
+        <!-- Under Review -->
+        <div style="background:#F1F5F9;border:1.5px solid #CBD5E1;border-radius:8px;padding:12px 20px;text-align:center;width:100%;">
+          <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#475569;margin-bottom:3px;">Under Review</div>
+          <div style="font-family:'DM Sans',sans-serif;font-size:12px;color:#64748B;">Teammates leave comments or request changes</div>
+        </div>
+
+        <!-- open PR pill -->
+        <div style="padding:8px 0;display:flex;justify-content:center;">
+          <span class="arrow-pill push" style="background:var(--accent-light);color:var(--accent);">↑ open pull request</span>
+        </div>
+
+        <!-- Your Branch (bottom) -->
+        <div style="background:#BFDBFE;border:1.5px solid #93C5FD;border-radius:8px;padding:12px 20px;text-align:center;width:100%;">
+          <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#1E40AF;margin-bottom:3px;">Your Branch</div>
+          <div style="font-family:'DM Mono',monospace;font-size:12px;color:#1E40AF;">update-week3-notes</div>
+        </div>
+
+        <!-- Local label -->
+        <div style="font-family:'DM Sans',sans-serif;font-size:11px;font-weight:600;color:#1E40AF;letter-spacing:.08em;text-transform:uppercase;text-align:center;margin-top:6px;">🖥 Local</div>
+
+      </div>
+    </div>
+
+    <div class="workflow-steps" style="margin-top:24px;">
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--accent-light);color:var(--accent);">1</div>
+        <div class="step-body">
+          <h4>Open a Pull Request on GitHub</h4>
+          <p>After pushing your branch, go to the repository on GitHub. You'll see a prompt to open a Pull Request. Give it a clear title and description explaining what you changed and why.</p>
+          <div class="callout info" style="margin-top:8px;">
+            <span class="callout-icon">💡</span>
+            <div><strong>Note: No terminal needed</strong> This step happens entirely on the GitHub website.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--amber-light);color:var(--amber);">2</div>
+        <div class="step-body">
+          <h4>Team reviews your changes</h4>
+          <p>Teammates can read through your changes line by line, leave inline comments, and request edits. You can keep pushing new commits to the same branch to address feedback — the PR updates automatically.</p>
+          <div class="code-block">
+            <span class="comment"># After addressing feedback, push again to the same branch</span>
+            <br><span class="prompt">$ </span><span class="cmd">git add</span> <span class="arg">notes.txt</span>
+            <br><span class="prompt">$ </span><span class="cmd">git commit</span> <span class="flag">-m</span> <span class="arg">"Revise week 3 notes based on feedback"</span>
+            <br><span class="prompt">$ </span><span class="cmd">git push</span> <span class="arg">origin update-week3-notes</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="workflow-step">
+        <div class="step-circle" style="background:var(--green-light);color:var(--green);">3</div>
+        <div class="step-body">
+          <h4>Merge into main once approved</h4>
+          <p>When a teammate approves the PR, click <strong>Merge Pull Request</strong> on GitHub. Your changes become part of the official <code style="font-family:&#39;DM Mono&#39;,monospace;font-size:12px;">main</code> branch, visible to the whole team.</p>
+          <div class="callout tip" style="margin-top:8px;">
+            <span class="callout-icon">✅</span>
+            <div><strong>Tip: Delete the branch after merging</strong> It's served its purpose — keeping things tidy helps the whole team.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- UPDATED CHEATSHEET -->
+    <div style="margin-top:28px;border:1.5px solid var(--border);border-radius:10px;overflow:hidden;">
+      <div style="background:var(--text);color:white;padding:12px 18px;font-size:13px;font-weight:600;letter-spacing:.04em;">Quick Reference — All Commands</div>
+      <div style="padding:16px 18px;background:var(--bg);">
+        <table style="width:100%;border-collapse:collapse;font-size:13px;">
+          <tbody>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:9px 0;width:240px;"><code style="font-family:'DM Mono',monospace;color:var(--accent);">git clone &lt;url&gt;</code></td>
+              <td style="color:var(--text-muted);">Copy a remote repo to your computer (once)</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:9px 0;"><code style="font-family:'DM Mono',monospace;color:var(--accent);">git init</code></td>
+              <td style="color:var(--text-muted);">Initialise a brand new local repository from scratch</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:9px 0;"><code style="font-family:'DM Mono',monospace;color:var(--accent);">git add .</code></td>
+              <td style="color:var(--text-muted);">Stage all changed files</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:9px 0;"><code style="font-family:'DM Mono',monospace;color:var(--accent);">git commit -m "msg"</code></td>
+              <td style="color:var(--text-muted);">Save a snapshot with a message</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:9px 0;"><code style="font-family:'DM Mono',monospace;color:var(--accent);">git push origin main</code></td>
+              <td style="color:var(--text-muted);">Upload commits to your hosting platform</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:9px 0;"><code style="font-family:'DM Mono',monospace;color:var(--accent);">git pull origin main</code></td>
+              <td style="color:var(--text-muted);">Download latest from your hosting platform</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:9px 0;"><code style="font-family:'DM Mono',monospace;color:var(--accent);">git checkout -b &lt;name&gt;</code></td>
+              <td style="color:var(--text-muted);">Create and switch to a new branch</td>
+            </tr>
+            <tr style="border-bottom:1px solid var(--border);">
+              <td style="padding:9px 0;"><code style="font-family:'DM Mono',monospace;color:var(--accent);">git push origin &lt;branch&gt;</code></td>
+              <td style="color:var(--text-muted);">Push a branch to your hosting platform</td>
+            </tr>
+            <tr>
+              <td style="padding:9px 0;"><code style="font-family:&#39;DM Mono&#39;,monospace;color:var(--accent);">git status</code></td>
+              <td style="color:var(--text-muted);">Check what's changed or staged</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- FOOTER NAV -->
+  <div class="nav-footer">
+    <button class="nav-btn" id="prevBtn" onclick="navigate(-1)" disabled="">
+      ← Previous
+    </button>
+    <span class="progress-text" id="progressText">1 / 7</span>
+    <button class="nav-btn primary" id="nextBtn" onclick="navigate(1)">Next →</button>
+  </div>
+</main>
+
+<script>
+  let current = 0;
+  const total = 7;
+
+  function goTo(n) {
+    document.getElementById('sec-' + current).classList.remove('active');
+    document.querySelectorAll('.prog-item')[current].classList.remove('active');
+    current = n;
+    document.getElementById('sec-' + current).classList.add('active');
+    document.querySelectorAll('.prog-item')[current].classList.add('active');
+    document.getElementById('prevBtn').disabled = current === 0;
+    document.getElementById('nextBtn').disabled = current === total - 1;
+    document.getElementById('nextBtn').textContent = current === total - 1 ? 'Finished ✓' : 'Next →';
+    document.getElementById('progressText').textContent = (current + 1) + ' / ' + total;
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function navigate(dir) {
+    const next = current + dir;
+    if (next >= 0 && next < total) goTo(next);
+  }
+</script>
+
+
+</body></html>
